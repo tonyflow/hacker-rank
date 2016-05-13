@@ -259,5 +259,43 @@ public class GraphTheory {
 		}
 		return order;
 	}
+	
+
+	/**
+	 * Clique : A subset of vertices of an undirected graph such that its
+	 * included subgraph is complete; that is, every two distinct vertices in
+	 * the clique are adjacent. {@link https
+	 * ://en.wikipedia.org/wiki/Clique_(graph_theory)}
+	 * 
+	 * 
+	 * Turan's Theorem : An n-vertex graph that does not contain a (r+1) clique
+	 * may be formed by partitioning the set of vertices into r parts of equal
+	 * or nearly equal size, and connecting two vertices with an edge whenever
+	 * they belong to two different parts.
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+
+		Scanner s = new Scanner(System.in);
+
+		int tc = s.nextInt();
+
+		for (int i = 0; i < tc; i++) {
+			int N = s.nextInt();
+			int M = s.nextInt();
+
+			System.out.println();
+		}
+		s.close();
+
+	}
+
+	private static int maxClique(int n, int m, int r) {
+		double lala = (Math.pow(n, 2) - (n % r) * Math.pow(Math.ceil(n / r), 2) - (r - (n % r))
+				* Math.pow(Math.ceil(n / r), 2));
+
+		return 0;
+	}
 
 }
