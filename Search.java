@@ -1,7 +1,12 @@
 package test.hacker.rank;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+
+import test.hacker.rank.Helpers.Point;
 
 public class Search {
 
@@ -224,22 +229,39 @@ public class Search {
 		s.close();
 
 	}
-	
+
 	/**
 	 * Connected cell in a grid
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
+
 		Scanner s = new Scanner(System.in);
 		int m = s.nextInt();
 		int n = s.nextInt();
-		
+		int[][] adjMatrix = new int[m][n];
+
 		for (int i = 0; i < m; i++) {
 			for (int j = 0; j < n; j++) {
-				s.nextInt();
+				adjMatrix[i][j] = s.nextInt();
 			}
 		}
-		
+
+		// build adjacency list
+		Map<Point, List<Point>> adjList = new HashMap<Point,List<Point>>();
+
+		s.close();
+
+	}
+
+	
+
+	/**
+	 * 
+	 */
+	private void dfsVisit() {
+		// TODO Auto-generated method stub
+
 	}
 }
