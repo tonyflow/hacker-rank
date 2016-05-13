@@ -188,7 +188,7 @@ public class Search {
 	 * 
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void maximizeSum(String[] args) {
 
 		Scanner s = new Scanner(System.in);
 		int tc = s.nextInt();
@@ -223,5 +223,23 @@ public class Search {
 
 		s.close();
 
+	}
+	
+	/**
+	 * Connected cell in a grid
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		
+		Scanner s = new Scanner(System.in);
+		int m = s.nextInt();
+		int n = s.nextInt();
+		
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				s.nextInt();
+			}
+		}
+		
 	}
 }

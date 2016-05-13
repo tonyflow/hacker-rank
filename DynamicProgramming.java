@@ -29,7 +29,7 @@ public class DynamicProgramming {
 	}
 
 	/**
-	 * The coin change problem.
+	 * The coin change problem. Tried using Kadane's algorithm for maximum sub arraray
 	 * 
 	 * @param args
 	 */
