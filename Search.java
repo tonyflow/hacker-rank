@@ -293,7 +293,7 @@ public class Search {
 	 * 
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void connectedCellInAGrid(String[] args) {
 
 		Scanner s = new Scanner(System.in);
 		int m = s.nextInt();
