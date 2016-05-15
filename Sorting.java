@@ -10,7 +10,6 @@ import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.TreeMap;
 
-import test.hacker.rank.Helpers.LomutoPartitionResult;
 import javassist.compiler.ast.Pair;
 
 public class Sorting {
@@ -319,7 +318,38 @@ public class Sorting {
 
 	}
 
-	
+	public static class LomutoPartitionResult {
+		private int sumOfSwaps;
+		private int p;
+
+		public LomutoPartitionResult() {
+			this.sumOfSwaps = 0;
+			this.p = 0;
+		}
+
+		public LomutoPartitionResult(int sumOfSwaps, int p) {
+			super();
+			this.sumOfSwaps = sumOfSwaps;
+			this.p = p;
+		}
+
+		public int getSumOfSwaps() {
+			return sumOfSwaps;
+		}
+
+		public void setSumOfSwaps(int sumOfSwaps) {
+			this.sumOfSwaps = sumOfSwaps;
+		}
+
+		public int getP() {
+			return p;
+		}
+
+		public void setP(int p) {
+			this.p = p;
+		}
+
+	}
 
 	private static void printList(List<Integer> l) {
 		for (Integer integer : l) {

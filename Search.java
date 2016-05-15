@@ -1,12 +1,14 @@
 package test.hacker.rank;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Scanner;
-
-import test.hacker.rank.Helpers.Point;
 
 public class Search {
 
@@ -231,7 +233,63 @@ public class Search {
 	}
 
 	/**
-	 * Connected cell in a grid
+	 * Connected cell in a grid. This implementation treats the give table as an
+	 * adjacency matrix. This is a degenerate adjacency matrix since adjacency
+	 * matrixes are of size |V|*|V|,G=(V,E), thus we convert this structure to
+	 * an adjacency matrix by populating remaining rows o columns with zero
+	 * paddings.
+	 * 
+	 * @param args
+	 */
+	public static void connectedCellsInTheGrid(String[] args) {
+
+		Scanner s = new Scanner(System.in);
+		int m = s.nextInt();
+		int n = s.nextInt();
+		int max = m > n ? m : n;
+		// int[][] adjMatrix = new int[m][n];
+		Map<Integer, List<Integer>> adjList = new HashMap<Integer, List<Integer>>();
+
+		for (int i = 0; i < max; i++) {
+			adjList.put(i, new ArrayList<>());
+		}
+
+		for (int i = 0; i < max; i++) {
+			for (int j = 0; j < max; j++) {
+				if (i > m || j > n) {
+					continue;
+				}
+				int cell = s.nextInt();
+				if (cell == 1 && i != j) {
+					adjList.get(i).add(j);
+				}
+				// adjMatrix[i][j] = s.nextInt();
+			}
+		}
+
+		boolean[] traversed = new boolean[max];
+		Arrays.fill(traversed, false);
+		int[] distanceTo = new int[max];
+		Arrays.fill(distanceTo, 0);
+		int[] predecessors = new int[max];
+		Arrays.fill(predecessors, -1);
+
+		for (int i = 0; i < max; i++) {
+			if (!traversed[i]) {
+				dfsVisit(i, adjList, traversed, distanceTo, predecessors);
+			}
+		}
+
+		Arrays.sort(distanceTo);
+
+		s.close();
+
+	}
+
+	/**
+	 * The following implementation of connected cells in the grid treats each
+	 * "1" table entry as a different node/vertex/point of the graph against
+	 * with the DFS will be performed.
 	 * 
 	 * @param args
 	 */
@@ -242,26 +300,328 @@ public class Search {
 		int n = s.nextInt();
 		int[][] adjMatrix = new int[m][n];
 
+		Map<String, List<String>> adjList = new HashMap<String, List<String>>();
+		Map<String, Integer> distanceTo = new HashMap<>();
+		Map<String, Boolean> traversed = new HashMap<>();
+		Map<String, Boolean> grey = new HashMap<>();
+		List<Integer> sizesOfConnectedComponents = new ArrayList<>();
+		Collections.fill(sizesOfConnectedComponents, 0);
+
+		// reading and initialization
 		for (int i = 0; i < m; i++) {
 			for (int j = 0; j < n; j++) {
 				adjMatrix[i][j] = s.nextInt();
+				adjList.put(i + "_" + j, new ArrayList<>());
+				distanceTo.put(i + "_" + j, 0);
+				traversed.put(i + "_" + j, false);
+				grey.put(i + "_" + j, false);
 			}
 		}
 
-		// build adjacency list
-		Map<Point, List<Point>> adjList = new HashMap<Point,List<Point>>();
+		// adjacency list
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				if (adjMatrix[i][j] == 1) {
+					// upper left corner
+					// right
+					if (i == 0 && j == 0 && adjMatrix[i][j + 1] == 1) {
+						adjList.get(i + "_" + j).add(i + "_" + (j + 1));
+					}
+					// underneath
+					if (i == 0 && j == 0 && adjMatrix[i + 1][j] == 1) {
+						adjList.get(i + "_" + j).add((i + 1) + "_" + j);
+					}
+					// diagonally
+					if (i == 0 && j == 0 && adjMatrix[i + 1][j + 1] == 1) {
+						adjList.get(i + "_" + j).add((i + 1) + "_" + (j + 1));
+					}
+					// lower left corner
+					// above
+					if (i == m - 1 && j == 0 && adjMatrix[i - 1][j] == 1) {
+						adjList.get(i + "_" + j).add((i - 1) + "_" + j);
+					}
+					// right
+					if (i == m - 1 && j == 0 && adjMatrix[i][j + 1] == 1) {
+						adjList.get(i + "_" + j).add(i + "_" + (j + 1));
+					}
+					// diagonally
+					if (i == m - 1 && j == 0 && adjMatrix[i - 1][j + 1] == 1) {
+						adjList.get(i + "_" + j).add((i - 1) + "_" + (j + 1));
+
+					}
+					// upper right corner
+					// left
+					if (i == 0 && j == n - 1 && adjMatrix[i][j - 1] == 1) {
+						adjList.get(i + "_" + j).add(i + "_" + (j - 1));
+					}
+					// beneath
+					if (i == 0 && j == n - 1 && adjMatrix[i + 1][j] == 1) {
+						adjList.get(i + "_" + j).add((i + 1) + "_" + j);
+					}
+					// diagonally
+					if (i == 0 && j == n - 1 && adjMatrix[i + 1][j - 1] == 1) {
+						adjList.get(i + "_" + j).add((i + 1) + "_" + (j - 1));
+
+					}
+					// lower right corner
+					// above
+					if (i == m - 1 && j == n - 1 && adjMatrix[i - 1][j] == 1) {
+						adjList.get(i + "_" + j).add((i - 1) + "_" + j);
+					}
+					// left
+					if (i == m - 1 && j == n - 1 && adjMatrix[i][j - 1] == 1) {
+						adjList.get(i + "_" + j).add(i + "_" + (j - 1));
+					}
+					// diagonally
+					if (i == m - 1 && j == n - 1
+							&& adjMatrix[i - 1][j - 1] == 1) {
+						adjList.get(i + "_" + j).add((i - 1) + "_" + (j - 1));
+					}
+				}
+				// upper edge
+				if (i == 0 && (j > 0 && j < n - 1) && adjMatrix[i][j] == 1) {
+					// right
+					if (adjMatrix[i][j + 1] == 1) {
+						adjList.get(i + "_" + j).add(i + "_" + (j + 1));
+					}
+					// left
+					if (adjMatrix[i][j - 1] == 1) {
+						adjList.get(i + "_" + j).add(i + "_" + (j - 1));
+					}
+					// diagonally : down and right
+					if (adjMatrix[i + 1][j + 1] == 1) {
+						adjList.get(i + "_" + j).add((i + 1) + "_" + (j + 1));
+					}
+					// diagonally : down and left
+					if (adjMatrix[i + 1][j - 1] == 1) {
+						adjList.get(i + "_" + j).add((i + 1) + "_" + (j - 1));
+					}
+					// beneath
+					if (adjMatrix[i + 1][j] == 1) {
+						adjList.get(i + "_" + j).add((i + 1) + "_" + (j));
+					}
+				}
+				// lower edge
+				if (i == m - 1 && (j > 0 && j < n - 1) && adjMatrix[i][j] == 1) {
+					// right
+					if (adjMatrix[i][j + 1] == 1) {
+						adjList.get(i + "_" + j).add((i) + "_" + (j + 1));
+					}
+					// left
+					if (adjMatrix[i][j - 1] == 1) {
+						adjList.get(i + "_" + j).add((i) + "_" + (j - 1));
+					}
+					// diagonally : up and right
+					if (adjMatrix[i - 1][j + 1] == 1) {
+						adjList.get(i + "_" + j).add((i - 1) + "_" + (j + 1));
+					}
+					// diagonally : up and left
+					if (adjMatrix[i - 1][j - 1] == 1) {
+						adjList.get(i + "_" + j).add((i - 1) + "_" + (j - 1));
+					}
+					// above
+					if (adjMatrix[i - 1][j] == 1) {
+						adjList.get(i + "_" + j).add((i - 1) + "_" + (j));
+					}
+				}
+				// left edge
+				if (j == 0 && (i > 0 && i < m - 1) && adjMatrix[i][j] == 1) {
+					// above
+					if (adjMatrix[i + 1][j] == 1) {
+						adjList.get(i + "_" + j).add((i + 1) + "_" + (j));
+					}
+					// beneath
+					if (adjMatrix[i - 1][j] == 1) {
+						adjList.get(i + "_" + j).add((i - 1) + "_" + (j));
+					}
+					// diagonally : up and right
+					if (adjMatrix[i - 1][j + 1] == 1) {
+						adjList.get(i + "_" + j).add((i - 1) + "_" + (j + 1));
+					}
+					// diagonally : down and right
+					if (adjMatrix[i + 1][j + 1] == 1) {
+						adjList.get(i + "_" + j).add((i + 1) + "_" + (j + 1));
+					}
+					// right
+					if (adjMatrix[i][j + 1] == 1) {
+						adjList.get(i + "_" + j).add((i) + "_" + (j + 1));
+					}
+				}
+				// right edge
+				if (j == n - 1 && (i > 0 && i < m - 1) && adjMatrix[i][j] == 1) {
+					// above
+					if (adjMatrix[i + 1][j] == 1) {
+						adjList.get(i + "_" + j).add((i + 1) + "_" + (j));
+					}
+					// beneath
+					if (adjMatrix[i - 1][j] == 1) {
+						adjList.get(i + "_" + j).add((i - 1) + "_" + (j));
+					}
+					// diagonally : up and left
+					if (adjMatrix[i - 1][j - 1] == 1) {
+						adjList.get(i + "_" + j).add((i - 1) + "_" + (j - 1));
+					}
+					// diagonally : down and left
+					if (adjMatrix[i + 1][j - 1] == 1) {
+						adjList.get(i + "_" + j).add((i + 1) + "_" + (j - 1));
+					}
+					// left
+					if (adjMatrix[i][j - 1] == 1) {
+						adjList.get(i + "_" + j).add((i) + "_" + (j - 1));
+					}
+				}
+
+				if ((i > 0 && i < m - 1) && (j > 0 && j < n - 1)
+						&& adjMatrix[i][j] == 1) { // everything
+					// else
+					// :
+					// none
+					// edge
+					// related
+					// cells
+
+					// beneath
+					if (adjMatrix[i + 1][j] == 1) {
+						adjList.get(i + "_" + j).add((i + 1) + "_" + j);
+					}
+					// up
+					if (adjMatrix[i - 1][j] == 1) {
+						adjList.get(i + "_" + j).add((i - 1) + "_" + (j));
+					}
+					// right
+					if (adjMatrix[i][j + 1] == 1) {
+						adjList.get(i + "_" + j).add(i + "_" + (j + 1));
+					}
+					// left
+					if (adjMatrix[i][j - 1] == 1) {
+						adjList.get(i + "_" + j).add(i + "_" + (j - 1));
+					}
+					// diagonally :
+					// down and right
+					if (adjMatrix[i + 1][j + 1] == 1) {
+						adjList.get(i + "_" + j).add((i + 1) + "_" + (j + 1));
+					}
+					// diagonally :
+					// down and left
+					if (adjMatrix[i + 1][j - 1] == 1) {
+						adjList.get(i + "_" + j).add((i + 1) + "_" + (j - 1));
+					}
+					// diagonally :
+					// up and
+					// right
+					if (adjMatrix[i - 1][j + 1] == 1) {
+						adjList.get(i + "_" + j).add((i - 1) + "_" + (j + 1));
+					}
+					// diagonally :
+					// up and left
+					if (adjMatrix[i - 1][j - 1] == 1) {
+						adjList.get(i + "_" + j).add((i - 1) + "_" + (j - 1));
+					}
+				}
+
+			}
+
+		}
+
+		// DFS
+		for (String vertex : adjList.keySet()) {
+			if (!traversed.get(vertex)) {
+				sizesOfConnectedComponents.add(dfsVisit(vertex, adjList,
+						traversed, distanceTo, grey, 1));
+			}
+		}
+
+		Collections.sort(sizesOfConnectedComponents);
+
+		System.out.println(sizesOfConnectedComponents
+				.get(sizesOfConnectedComponents.size() - 1));
+
+		// print
 
 		s.close();
 
 	}
 
-	
-
 	/**
+	 * Every time dfsVisit is called, vertex u becomes the root of a new tree in
+	 * the dipth first forest.
 	 * 
+	 * @param predecessors
 	 */
-	private void dfsVisit() {
-		// TODO Auto-generated method stub
+	private static void dfsVisit(int u, Map<Integer, List<Integer>> adj,
+			boolean[] traversed, int[] distanceTo, int[] predecessors) {
+
+		for (int v : adj.get(u)) {
+			if (!traversed[v]) {
+				predecessors[v] = u;
+				distanceTo[predecessors[v]]++;
+				dfsVisit(v, adj, traversed, distanceTo, predecessors);
+			}
+		}
+		traversed[u] = true;
+		// set timestamp
+		// set predecessor
+		// both optional
+	}
+
+	private static int dfsVisit(String u, Map<String, List<String>> adj,
+			Map<String, Boolean> traversed, Map<String, Integer> distanceTo,
+			Map<String, Boolean> grey, int sizeOfConnectedComponents) {
+
+		grey.put(u, true);
+
+		for (String v : adj.get(u)) {
+			if (!traversed.get(v) && !grey.get(v)) {
+				distanceTo.put(v, distanceTo.get(v) + 1);
+				sizeOfConnectedComponents = dfsVisit(v, adj, traversed,
+						distanceTo, grey, sizeOfConnectedComponents + 1);
+			}
+		}
+
+		traversed.put(u, true);
+
+		// return size of connected components
+		return sizeOfConnectedComponents;
+	}
+
+	public static class PointVertex {
+		private int x;
+		private int y;
+		private boolean traversed;
+
+		public PointVertex() {
+		}
+
+		public PointVertex(int x, int y, boolean traversed) {
+			super();
+			this.x = x;
+			this.y = y;
+			this.traversed = traversed;
+		}
+
+		public int getX() {
+			return x;
+		}
+
+		public void setX(int x) {
+			this.x = x;
+		}
+
+		public int getY() {
+			return y;
+		}
+
+		public void setY(int y) {
+			this.y = y;
+		}
+
+		public boolean isTraversed() {
+			return traversed;
+		}
+
+		public void setTraversed(boolean traversed) {
+			this.traversed = traversed;
+		}
 
 	}
 }

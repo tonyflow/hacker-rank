@@ -2,36 +2,37 @@ package test.hacker.rank;
 
 public class Helpers {
 
-	public class Point {
-		private int x;
-		private int y;
-
-		public Point() {
-		}
-
-		public Point(int x, int y) {
-			super();
-			this.x = x;
-			this.y = y;
-		}
-
-		public int getX() {
-			return x;
-		}
-
-		public void setX(int x) {
-			this.x = x;
-		}
-
-		public int getY() {
-			return y;
-		}
-
-		public void setY(int y) {
-			this.y = y;
-		}
-
-	}
+//	public static boolean checkAdjacency(int[][] matrix,int m,int n){
+//		
+//		for (int i = 0; i < m; i++) {
+//			for (int j = 0; j < n; j++) {
+//				if (matrix[i + 1][j] == 1) { // above
+//					adjList.get(i + "_" + j).add(i + 1 + "_" + j);
+//				} else if (matrix[i - 1][j + 1] == 1) { // down
+//					adjList.get(i + "_" + j).add(i - 1 + "_" + j + 1);
+//				} else if (matrix[i][j + 1] == 1) { // right
+//					adjList.get(i + "_" + j).add(i + "_" + j + 1);
+//				} else if (matrix[i][j - 1] == 1) { // left
+//					adjList.get(i + "_" + j).add(i + "_" + (j - 1));
+//				} else if (matrix[i + 1][j + 1] == 1) { // diagonally :
+//															// up and right
+//					adjList.get(i + "_" + j).add(i + 1 + "_" + j);
+//				} else if (matrix[i + 1][j - 1] == 1) { // diagonally :
+//															// up and left
+//					adjList.get(i + "_" + j).add((i + 1) + "_" + (j - 1));
+//				} else if (matrix[i - 1][j + 1] == 1) { // diagonally :
+//															// down and
+//															// right
+//					adjList.get(i + "_" + j).add((i - 1) + "_" + (j + 1));
+//				} else if (matrix[i + 1][j + 1] == 1) { // diagonally :
+//															// down and left
+//					adjList.get(i + "_" + j).add((i + 1) + "_" + (j + 1));
+//				}
+//			}
+//		}
+//		
+//		return true;
+//	}
 	
 	public static class LomutoPartitionResult {
 		private int sumOfSwaps;
