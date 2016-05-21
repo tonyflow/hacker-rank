@@ -543,6 +543,31 @@ public class Search {
 	}
 
 	/**
+	 * Count Luck : The Ron and Hermione Challenge.
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+
+		Scanner s = new Scanner(System.in);
+		int tc = s.nextInt();
+		for (int i = 0; i < tc; i++) {
+			int n = s.nextInt();
+			int m = s.nextInt();
+			int[][] terrain = new int[n][m];
+
+			for (int j = 0; j < n; j++) {
+				for (int k = 0; k < m; k++) {
+					terrain[j][k] = s.nextInt();
+				}
+			}
+		}
+
+		s.close();
+
+	}
+
+	/**
 	 * Every time dfsVisit is called, vertex u becomes the root of a new tree in
 	 * the dipth first forest.
 	 * 
