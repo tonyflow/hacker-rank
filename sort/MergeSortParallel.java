@@ -1,10 +1,28 @@
 package test.hacker.rank.sort;
 
 import java.util.Arrays;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.time.StopWatch;
 
-public class MergeSort {
+public class MergeSortParallel {
+
+	private static final Integer CORE_POOL_SIZE = 5;
+	private static final Integer MAXIMUM_POOL_SIZE = 10;
+	private static final Long KEEP_ALIVE_TIME = 5000l;
+
+	private static BlockingQueue<Runnable> queue = new ArrayBlockingQueue<Runnable>(
+			1024);
+	private static ExecutorService executorService = Executors
+			.newFixedThreadPool(CORE_POOL_SIZE);
+
+	ThreadPoolExecutor executor = new ThreadPoolExecutor(CORE_POOL_SIZE,
+			MAXIMUM_POOL_SIZE, KEEP_ALIVE_TIME, TimeUnit.MILLISECONDS, queue);
 
 	public static void main(String[] args) throws InterruptedException {
 
@@ -18,6 +36,7 @@ public class MergeSort {
 		for (int i = 0; i < A.length; i++) {
 			System.out.print(A[i] + " ");
 		}
+		executorService.shutdown();
 		System.out.print("]");
 		System.out.println();
 		timer.stop();
@@ -81,9 +100,9 @@ public class MergeSort {
 		int[] left = createLeftSubarray(A, mid);
 		int[] right = createRightSubarray(A, mid);
 
-		mergeSort(left);
-		mergeSort(right);
-		merge(A, left, right);
+		executorService.execute(() -> mergeSort(left));
+		executorService.execute(() -> mergeSort(right));
+		executorService.execute(() -> merge(A, left, right));
 	}
 
 	private static int[] createRightSubarray(int[] A, int mid) {
