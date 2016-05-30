@@ -8,6 +8,7 @@ import org.apache.commons.lang3.time.StopWatch;
  * A heap is an array object with two major attributes: 
  * (1)A.length which represents the number of elements included in the array
  * (2)A.heap-size which represents how many elements in the heap are stored in the array
+ * Worst case = Average = Best = O(nlogn)
  */
 public class HeapSort {
 
