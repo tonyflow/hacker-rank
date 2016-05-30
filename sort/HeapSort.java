@@ -2,6 +2,8 @@ package test.hacker.rank.sort;
 
 import java.util.Arrays;
 
+import org.apache.commons.lang3.time.StopWatch;
+
 /*
  * A heap is an array object with two major attributes: 
  * (1)A.length which represents the number of elements included in the array
@@ -9,7 +11,12 @@ import java.util.Arrays;
  */
 public class HeapSort {
 
-	public static void _main(String[] args) {
+	private static Integer HEAP_SIZE = null;
+
+	public static void main(String[] args) {
+
+		StopWatch timer = new StopWatch();
+		timer.start();
 
 		int[] A = new int[] { 16, 4, 10, 14, 7, 9, 3, 2, 8, 1 };
 
@@ -18,16 +25,30 @@ public class HeapSort {
 
 		heapSort(A);
 
+		timer.stop();
+		System.out.println("Sort took : " + timer.getNanoTime()
+				/ Math.pow(10, 9));
 		System.out.println("Arrays after heap sort : " + Arrays.toString(A));
 
 	}
 
 	private static void heapSort(int[] A) {
+
+		HEAP_SIZE = A.length;
+
 		// build max heap
-		for (int i = A.length; i > 0; i--) {
-			// exchange A[i] with A[1]
-			// decrease size of heap by one
+		buildMaxHeap(A);
+		for (int i = A.length - 1; i > 0; i--) {
+
+			// exchange A[i] with A[0]
+			int tmp = A[0];
+			A[0] = A[i];
+			A[i] = tmp;
+
+			// decrease size of heap by one.
+			HEAP_SIZE--;
 			// traverse heap to apply max heap property (maxHeapify())
+			maxHeapify(A, 0);
 		}
 	}
 
@@ -46,17 +67,17 @@ public class HeapSort {
 	private static void maxHeapify(int[] A, int i) {
 
 		// taking care of edge cases
-		int left = left(i) == heapSize(A) ? left(i) - 1 : left(i);
-		int right = right(i) == heapSize(A) ? right(i) - 1 : right(i);
+		int left = left(i) == HEAP_SIZE ? left(i) - 1 : left(i);
+		int right = right(i) == HEAP_SIZE ? right(i) - 1 : right(i);
 		int largest = 0;
 
-		if (left <= heapSize(A) && A[left] > A[i]) {
+		if (left <= HEAP_SIZE && A[left] > A[i]) {
 			largest = left;
 		} else {
 			largest = i;
 		}
 
-		if (right <= heapSize(A) && A[right] > A[largest]) {
+		if (right <= HEAP_SIZE && A[right] > A[largest]) {
 			largest = right;
 		}
 
@@ -98,24 +119,14 @@ public class HeapSort {
 	}
 
 	/**
-	 * Should make clear which is the case where heap size is different than the
-	 * length of the array hosting the heap.
-	 * 
-	 * @param A
-	 * @return
-	 */
-	private static int heapSize(int[] A) {
-		return A.length;
-	}
-
-	/**
 	 * Verify maxHeapify behavior
 	 * 
 	 * @param args
 	 */
-	public static void __main(String[] args) {
+	public static void _main(String[] args) {
 		int[] A = new int[] { 16, 4, 10, 14, 7, 9, 3, 2, 8, 1 };
 
+		HEAP_SIZE = A.length;
 		System.out.println("Arrays before max heapify takes action : "
 				+ Arrays.toString(A));
 
@@ -128,9 +139,10 @@ public class HeapSort {
 	/*
 	 * Verify build max heap behavior
 	 */
-	public static void main(String[] args) {
+	public static void __main(String[] args) {
 		int[] A = new int[] { 4, 1, 3, 2, 16, 9, 10, 14, 8, 7 };
 
+		HEAP_SIZE = A.length;
 		System.out.println("Array before build max heap takes action : "
 				+ Arrays.toString(A));
 
