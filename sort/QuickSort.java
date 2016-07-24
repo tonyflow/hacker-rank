@@ -3,6 +3,11 @@ package test.hacker.rank.sort;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static java.util.Arrays.toString;
+import static java.util.Arrays.copyOfRange;
+
+import org.apache.commons.lang3.time.StopWatch;
+
 /**
  * Worst case : O(n^2) Average case : O(nlog(n)) Best case : O(nlog(n))
  * 
@@ -14,8 +19,13 @@ public class QuickSort {
 	public static void main(String[] args) {
 
 		int[] A = new int[] { 3, 7, 8, 5, 2, 1, 9, 5, 4 };
+		StopWatch timer = new StopWatch();
+		timer.start();
 		quickSort(A, 0, A.length - 1);
+		timer.stop();
 		System.out.println("After quick sort : " + Arrays.toString(A));
+		System.out.println("Quick sort (including I/O) took : "
+				+ timer.getNanoTime() / Math.pow(10, 9));
 
 	}
 
@@ -34,7 +44,8 @@ public class QuickSort {
 
 		System.out
 				.println("============================================================================");
-
+		System.out.println("Handling subarray "
+				+ Arrays.toString(copyOfRange(A, low, high + 1)));
 		System.out.println("Inside partition number "
 				+ numberOfPartition.getAndIncrement() + " where low = " + low
 				+ " and high = " + high);

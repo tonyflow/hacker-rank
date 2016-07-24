@@ -804,49 +804,6 @@ public class Challenge {
 				.multiply(recursiveFactorial(n.subtract(BigInteger.ONE)));
 	}
 
-	public static void pangrams(String[] args) {
-
-		// constants
-		final int ASCII_UPPERCASE_START = 65;
-		final int ASCII_UPPERCASE_END = 90;
-		final int ASCII_LOWERCASE_START = 97;
-		final int ASCII_LOWERCASE_END = 122;
-
-		Scanner s = new Scanner(System.in);
-		char[] ca = s.nextLine().replace("\\s", "").toCharArray();
-		List<Character> sentenceList = new ArrayList<>();
-		for (char character : ca) {
-			sentenceList.add(character);
-		}
-
-		List<Character> alphabet = new ArrayList<>();
-		// initialize alphabet
-		for (int i = ASCII_UPPERCASE_START, j = ASCII_LOWERCASE_START, k = 0; i <= ASCII_UPPERCASE_END
-				&& j <= ASCII_LOWERCASE_END && k < 52; i++, j++, k = k + 2) {
-			alphabet.add((char) i);
-			alphabet.add((char) j);
-		}
-
-		int total = 0;
-		Collections.sort(alphabet);
-		for (Character c : sentenceList) {
-			if (alphabet.contains(c)) {
-				alphabet.remove(c);
-				if (Character.isUpperCase(c)) {
-					alphabet.remove(Character.valueOf(Character.toLowerCase(c)));
-				} else {
-					alphabet.remove(Character.valueOf(Character.toUpperCase(c)));
-				}
-				total++;
-			}
-		}
-
-		System.out.println(total == 26 ? "pangram" : "not pangram");
-
-		s.close();
-
-	}
-
 	/**
 	 * This is a brute force approach. Calculate all possible sums of subarrays
 	 * and find the answer. Time complexity O(n^3)
@@ -1005,43 +962,12 @@ public class Challenge {
 		s.close();
 	}
 
-	
-
-	
-
 	private static void printMap(Map<Integer, List<Integer>> adj) {
 		for (Map.Entry<Integer, List<Integer>> al : adj.entrySet()) {
 			System.out.print(al.getKey() + " --> ");
 			al.getValue().forEach(c -> System.out.print(c + " "));
 			System.out.println();
 		}
-	}
-
-	/**
-	 * Alternating characters
-	 * 
-	 * @param args
-	 */
-	public static void alternatingCharacters(String[] args) {
-
-		Scanner s = new Scanner(System.in);
-
-		int tc = s.nextInt();
-		s.nextLine();
-		for (int i = 0; i < tc; i++) {
-			int deletions = 0;
-			char[] r = s.nextLine().toCharArray();
-
-			char compareTo = r[0];
-			for (int j = 0; j < r.length - 1; j++) {
-				if (compareTo == r[j + 1]) {
-					deletions++;
-				}
-				compareTo = r[j + 1];
-			}
-			System.out.println(deletions);
-		}
-		s.close();
 	}
 
 	public static void palindromes(String[] args) {
@@ -1060,172 +986,6 @@ public class Challenge {
 			System.out.println(operations);
 		}
 		s.close();
-	}
-
-	/**
-	 * Gemstones : Stream Implementation
-	 * 
-	 * @param args
-	 */
-	public static void gemstonesStream(String[] args) {
-		Scanner s = new Scanner(System.in);
-
-		int tc = s.nextInt();
-		s.nextLine();
-
-		List<Integer> collection = null;
-		for (int i = 0; i < tc; i++) {
-
-			List<Integer> d = s.nextLine().chars().distinct().boxed()
-					.collect(Collectors.toList());
-
-			for (int j = 0; j < tc - 1; j++) {
-				collection = s.nextLine().chars().distinct().boxed()
-						.filter((p) -> {
-							if (d.contains(p)) {
-								return true;
-							} else {
-								d.remove(p);
-								return false;
-							}
-						}).collect(Collectors.toList());
-			}
-		}
-		System.out.println(collection.size());
-		s.close();
-
-	}
-
-	public static void gemstones(String[] args) {
-
-		Scanner s = new Scanner(System.in);
-
-		int tc = s.nextInt();
-		s.nextLine();
-
-		Set<Character> common = new HashSet<>();
-
-		char[] first = s.nextLine().toCharArray();
-		for (char c : first) {
-			common.add(c);
-		}
-
-		for (int i = 0; i < tc - 1; i++) {
-			char[] element = s.nextLine().toCharArray();
-			Set<Character> elementSet = new HashSet<>();
-			for (char c : element) {
-				elementSet.add(c);
-			}
-			common.retainAll(elementSet);
-
-		}
-
-		System.out.println(common.size());
-	}
-
-	/**
-	 * Two strings : Brute force. Will time out.
-	 */
-	public static void twoStrings(String[] args) {
-
-		Scanner s = new Scanner(System.in);
-
-		int tc = s.nextInt();
-		String[] results = new String[tc];
-		Arrays.fill(results, "NO");
-		s.nextLine();
-
-		for (int i = 0; i < tc; i++) {
-			String first = s.nextLine();
-			String second = s.nextLine();
-
-			for (int substringSize = 1; substringSize < first.length(); substringSize++) {
-
-				for (int startIndex = 0; startIndex + substringSize < first
-						.length(); startIndex++) {
-					if (second.contains(first.substring(startIndex, startIndex
-							+ substringSize))) {
-						results[i] = "YES";
-						break;
-					}
-				}
-				if (results[i].equals("YES")) {
-					break;
-				}
-
-			}
-		}
-
-		for (String r : results) {
-			System.out.println(r);
-		}
-
-		s.close();
-
-	}
-
-	public static void twoStringOptimal(String[] args) {
-
-		Scanner s = new Scanner(System.in);
-
-		int tc = s.nextInt();
-		String[] results = new String[tc];
-		Arrays.fill(results, "NO");
-		s.nextLine();
-
-		for (int i = 0; i < tc; i++) {
-			String first = s.nextLine();
-			String second = s.nextLine();
-
-			for (char c : "abcdefghijklmnopqrstuvwxyz".toCharArray()) {
-				if (first.indexOf(c) > -1 && second.indexOf(c) > -1) {
-					results[i] = "YES";
-					break;
-				}
-			}
-		}
-		for (String r : results) {
-			System.out.println(r);
-		}
-		s.close();
-	}
-
-	/**
-	 * Funny String
-	 * 
-	 * @param args
-	 */
-	public static void funnyString(String[] args) {
-
-		Scanner s = new Scanner(System.in);
-		int tc = s.nextInt();
-		s.nextLine();
-
-		for (int i = 0; i < tc; i++) {
-			String funny = s.nextLine();
-			char[] reversedFunnyR = new StringBuilder(funny).reverse()
-					.toString().toCharArray();
-			char[] funnyR = funny.toCharArray();
-
-			int max = 0;
-			for (int j = 1; j < funnyR.length; j++) {
-				if (Math.abs(funnyR[j] - funnyR[j - 1]) == Math
-						.abs(reversedFunnyR[j] - reversedFunnyR[j - 1])) {
-					max++;
-				} else {
-					break;
-				}
-			}
-
-			if (max == reversedFunnyR.length - 1) {
-				System.out.println("Funny");
-			} else {
-				System.out.println("Not Funny");
-			}
-
-		}
-		s.close();
-
 	}
 
 	/**
@@ -1301,9 +1061,5 @@ public class Challenge {
 		s.close();
 
 	}
-
-	
-	
-
 
 }
