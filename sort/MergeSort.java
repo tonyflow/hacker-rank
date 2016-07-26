@@ -11,7 +11,7 @@ public class MergeSort {
 		StopWatch timer = new StopWatch();
 		timer.start();
 
-		int[] A = new int[] { 2, 4, 1, 6, 8, 5, 3, 7 };
+		int[] A = new int[] { 4, 2, 6, 1, 8, 5, 7, 3 };
 		mergeSort(A);
 
 		System.out.print("Arrays after merge sort is :: [ ");
@@ -54,7 +54,7 @@ public class MergeSort {
 			k++;
 		}
 		// on completion of previous loop one of two sub-arrays will be fully
-		// traversed, consequently we should add to inititial array the
+		// traversed, consequently we should add to initial array the
 		// remaining
 		// sorted element from the one sub-array which was not fully traversed
 		while (i < L.length) {
