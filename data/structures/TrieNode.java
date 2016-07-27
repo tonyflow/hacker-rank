@@ -7,8 +7,8 @@ public class TrieNode {
 	public boolean isWord;
 
 	public TrieNode(char letter) {
-		super();
 		this.letter = letter;
+		this.links=new TrieNode[26];
 	}
 
 }
