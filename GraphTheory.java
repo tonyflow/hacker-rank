@@ -102,7 +102,7 @@ public class GraphTheory {
 	/**
 	 * BFS : Shortest Reach . This is a generalization of single source shortest
 	 * path algorithm which produces shortest path from any given node to any
-	 * given node. Should be able to do that with the Floyd-Warshall algorithm
+	 * given node. Should be able to do that with the Floyd-Warshall algorithm.
 	 * 
 	 * @param args
 	 */

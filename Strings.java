@@ -342,7 +342,7 @@ public class Strings {
 	 * 
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void sherlockAndAnagrams(String[] args) {
 
 		Scanner s = new Scanner(System.in);
 		int tc = s.nextInt();
@@ -394,6 +394,38 @@ public class Strings {
 		}
 
 		s.close();
+
+	}
+
+	/**
+	 * Find all permutations of a string
+	 * 
+	 * @param args
+	 */
+	static Integer numberOfPermutations = 0;
+
+	public static void findAllPermutations(String[] args) {
+
+		String s = "abcd";
+
+		substring("", s);
+
+		System.out.println("Number of permutations was :: "
+				+ numberOfPermutations);
+	}
+
+	private static void substring(String prefix, String rest) {
+
+		int n = rest.length();
+		if (n == 0) {
+			System.out.println(prefix);
+			numberOfPermutations++;
+		} else {
+			for (int i = 0; i < n; i++) {
+				substring(prefix + rest.charAt(i),
+						rest.substring(0, i) + rest.substring(i + 1, n));
+			}
+		}
 
 	}
 }

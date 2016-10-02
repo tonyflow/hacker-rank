@@ -233,11 +233,11 @@ public class Search {
 	}
 
 	/**
-	 * Connected cell in a grid. This implementation treats the give table as an
-	 * adjacency matrix. This is a degenerate adjacency matrix since adjacency
-	 * matrixes are of size |V|*|V|,G=(V,E), thus we convert this structure to
-	 * an adjacency matrix by populating remaining rows o columns with zero
-	 * paddings.
+	 * Connected cell in a grid. This implementation treats the given table as
+	 * an adjacency matrix. This is a degenerate adjacency matrix since
+	 * adjacency matrixes are of size |V|*|V|,G=(V,E), thus we convert this
+	 * structure to an adjacency matrix by populating remaining rows and columns
+	 * with zero paddings.
 	 * 
 	 * @param args
 	 */
