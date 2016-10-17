@@ -255,9 +255,29 @@ public class RecursionProblems {
 		// System.out.println(allStar("abc"));
 		// System.out.println(allStar("ab"));
 
-		System.out.println(pairStar("hello"));
-//		System.out.println(pairStar("xxyy"));
-//		System.out.println(pairStar("aaaa"));
+		// System.out.println(pairStar("hello"));
+		// System.out.println(pairStar("xxyy"));
+		// System.out.println(pairStar("aaaa"));
+
+		// System.out.println(endX("xxre"));
+		// System.out.println(endX("xxhixx"));
+		// System.out.println(endX("xhixhix"));
+
+		// System.out.println(countPairs("axa"));
+		// System.out.println(countPairs("axax"));
+		// System.out.println(countPairs("axbx"));
+
+		// System.out.println(countAbc("abc"));
+		// System.out.println(countAbc("abcxxabc"));
+		// System.out.println(countAbc("abaxxaba"));
+
+		// System.out.println(count11("11abc11"));
+		// System.out.println(count11("abc11x11x11"));
+		// System.out.println(count11("111"));
+
+		System.out.println(stringClean("yyzzza"));
+		System.out.println(stringClean("Hello"));
+		System.out.println(stringClean("abbbcdd"));
 	}
 
 	@SuppressWarnings("unused")
@@ -606,15 +626,200 @@ public class RecursionProblems {
 
 		StringBuilder builder = new StringBuilder();
 
-		if (str.length() > 1) {
-			if (str.charAt(0) == str.charAt(1)) {
-				builder.append(str.charAt(0)).append("*").append(str.charAt(1));
+		if (str.length() > 0) {
+			builder.append(str.charAt(0));
+			if (str.length() > 1 && str.charAt(0) == str.charAt(1)) {
+				builder.append("*");
 			}
 
 			builder.append(pairStar(str.substring(1)));
 		}
 
 		return builder.toString();
+
+	}
+
+	/**
+	 * Given a string, compute recursively a new string where all the lowercase
+	 * 'x' chars have been moved to the end of the string.
+	 * 
+	 * endX("xxre") → "rexx"
+	 * 
+	 * endX("xxhixx") → "hixxxx"
+	 * 
+	 * endX("xhixhix") → "hihixxx"
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static String endX(String str) {
+
+		StringBuilder builder = new StringBuilder();
+
+		if (str.length() > 0) {
+			if (str.startsWith("x")) {
+				builder.append(endX(str.substring(1))).append("x");
+			} else {
+				builder.append(str.charAt(0)).append(endX(str.substring(1)));
+			}
+
+		}
+
+		return builder.toString();
+
+	}
+
+	/**
+	 * We'll say that a "pair" in a string is two instances of a char separated
+	 * by a char. So "AxA" the A's make a pair. Pair's can overlap, so "AxAxA"
+	 * contains 3 pairs -- 2 for A and 1 for x. Recursively compute the number
+	 * of pairs in the given string.
+	 * 
+	 * countPairs("axa") → 1
+	 * 
+	 * countPairs("axax") → 2
+	 * 
+	 * countPairs("axbx") → 1
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static int countPairs(String str) {
+
+		int count = 0;
+
+		if (str.length() >= 3) {
+			if (str.charAt(0) == str.charAt(2)) {
+				count++;
+			}
+
+			return count + countPairs(str.substring(1));
+		}
+
+		return count;
+
+	}
+
+	/**
+	 * Count recursively the total number of "abc" and "aba" substrings that
+	 * appear in the given string.
+	 * 
+	 * countAbc("abc") → 1
+	 * 
+	 * countAbc("abcxxabc") → 2
+	 * 
+	 * countAbc("abaxxaba") → 2
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static int countAbc(String str) {
+
+		int count = 0;
+
+		if (str.length() >= 3) {
+			if (str.substring(0, 3).equals("abc")) {
+				count++;
+				return count + countAbc(str.substring(3));
+			} else if (str.substring(0, 3).equals("aba")) {
+				count++;
+				return count + countAbc(str.substring(2));
+			} else {
+				return countAbc(str.substring(1));
+			}
+
+		}
+
+		return count;
+
+	}
+
+	/**
+	 * Given a string, compute recursively (no loops) the number of "11"
+	 * substrings in the string. The "11" substrings should not overlap.
+	 * 
+	 * count11("11abc11") → 2
+	 * 
+	 * count11("abc11x11x11") → 3
+	 * 
+	 * count11("111") → 1
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static int count11(String str) {
+
+		int count = 0;
+
+		if (str.length() > 1) {
+			if (str.substring(0, 2).equals("11")) {
+				count++;
+				return count + count11(str.substring(2));
+			} else {
+				return count11(str.substring(1));
+			}
+
+		}
+
+		return count;
+
+	}
+
+	/**
+	 * Given a string, return recursively a "cleaned" string where adjacent
+	 * chars that are the same have been reduced to a single char. So "yyzzza"
+	 * yields "yza".
+	 * 
+	 * stringClean("yyzzza") → "yza"
+	 * 
+	 * stringClean("abbbcdd") → "abcd"
+	 * 
+	 * stringClean("Hello") → "Helo"
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static String stringClean(String str) {
+
+		StringBuilder builder = new StringBuilder(Character.toString(str
+				.charAt(0)));
+
+		if (str.length() > 1) {
+
+			int i = 1;
+			while (i < str.length() && str.charAt(0) == str.charAt(i)) {
+
+				i++;
+			}
+
+			if (i == str.length()) {
+				builder.append("");
+			} else {
+				builder.append(stringClean(str.substring(i)));
+			}
+
+		}
+
+		return builder.toString();
+	}
+
+	/**
+	 * Given a string, compute recursively the number of times lowercase "hi"
+	 * appears in the string, however do not count "hi" that have an 'x'
+	 * immedately before them.
+	 * 
+	 * countHi2("ahixhi") → 1
+	 * 
+	 * countHi2("ahibhi") → 2
+	 * 
+	 * countHi2("xhixhi") → 0
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public int countHi2(String str) {
+
+		return 0;
 
 	}
 }
