@@ -1,10 +1,10 @@
 package test.hacker.rank.sort;
 
 /**
- * Best: O(n^2) Average: O(n^2) Worst: O(n^2) The algorithm runs runs through
- * each element in the list repeatedly. Each time the smallest element in the
- * list is selected and placed in the front / sorted part of the list. The
- * algorithm sorts numbers in place thus the time complexity of it is O(1).
+ * Best: O(n^2) Average: O(n^2) Worst: O(n^2) The algorithm runs through each
+ * element in the list repeatedly. Each time the smallest element in the list is
+ * selected and placed in the front / sorted part of the list. The algorithm
+ * sorts numbers in place thus the time complexity of it is O(1).
  * 
  * @author niko.strongioglou
  *

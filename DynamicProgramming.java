@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class DynamicProgramming {
 
@@ -236,32 +235,34 @@ public class DynamicProgramming {
 	}
 
 	private static void partitionCandies(int[] ratings) {
-
-		if (high - low > 1) {
-			if (high - low == 1) { // array contains two elements
-
-				int diff = ratings[0] - ratings[1];
-				if (diff > 0 || diff < 0) {
-					numberOfCandies += 3; // one for the lower rated student and
-											// one for the higher rated student
-				} else { // equal elements
-					numberOfCandies += 2; // one for each student with the same
-											// rating
-				}
-			} else {
-				int max = findFirstIncreasing(ratings);
-				int[] left = Arrays.copyOfRange(ratings, 0, max + 1);
-				int[] right = Arrays.copyOfRange(ratings, max + 1,
-						ratings.length);
-				partitionCandies(left);
-				partitionCandies(right);
-
-				mergeCandies(left, right);
-			}
-		} else if (ratings.length == 1) {
-			numberOfCandies++;
-		}
 	}
+
+	//
+	// if (high - low > 1) {
+	// if (high - low == 1) { // array contains two elements
+	//
+	// int diff = ratings[0] - ratings[1];
+	// if (diff > 0 || diff < 0) {
+	// numberOfCandies += 3; // one for the lower rated student and
+	// // one for the higher rated student
+	// } else { // equal elements
+	// numberOfCandies += 2; // one for each student with the same
+	// // rating
+	// }
+	// } else {
+	// int max = findFirstIncreasing(ratings);
+	// int[] left = Arrays.copyOfRange(ratings, 0, max + 1);
+	// int[] right = Arrays.copyOfRange(ratings, max + 1,
+	// ratings.length);
+	// partitionCandies(left);
+	// partitionCandies(right);
+	//
+	// mergeCandies(left, right);
+	// }
+	// } else if (ratings.length == 1) {
+	// numberOfCandies++;
+	// }
+	// }
 
 	private static void mergeCandies(int[] left, int[] right) {
 

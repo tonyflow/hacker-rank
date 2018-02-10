@@ -17,11 +17,10 @@ public class BubbleSort {
 
 	public static void main(String[] args) {
 
-		int[] r = new int[] { 3, 8, 5, 2, 7 };
+		// int[] r = new int[] { 3, 8, 5, 2, 7 };
+		int[] r = new int[] { 6, 5, 4, 3, 2, 1 };
 		bubbleSort(r);
-		for (int i = 0; i < r.length; i++) {
-			System.out.print(r[i] + " ");
-		}
+		System.out.println("Sorted : " + Arrays.toString(r));
 	}
 
 	private static void bubbleSort(int[] r) {

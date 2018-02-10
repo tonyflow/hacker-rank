@@ -2,15 +2,114 @@ package test.hacker.rank;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class Search {
+
+	/**
+	 * LCA : Lowest common ancestor
+	 * 
+	 * @param root
+	 * @param p
+	 * @param q
+	 * @return
+	 */
+//	public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+//		if (root == null || root == p || root == q) {
+//			return root;
+//		}
+//		TreeNode left = lowestCommonAncestor(root.left, p, q);
+//		TreeNode right = lowestCommonAncestor(root.right, p, q);
+//		return left == null ? right : right == null ? left : root;
+//	}
+
+	public static void main(String[] args) {
+		System.out.println(deduplicate("cccabbbe"));
+
+		System.out.println(removeRepetitiveChars("cccabbbe", 2));
+	}
+
+	private static String removeRepetitiveChars(String s, int n) {
+
+		if (s == null || s.length() == 1) {
+			return s;
+		}
+
+		if (checkRepetition(s, n)) {
+			return removeRepetitiveChars(s.substring(n), n);
+		} else {
+			return s.substring(0, 1) + removeRepetitiveChars(s.substring(1), n);
+		}
+
+	}
+
+	private static boolean checkRepetition(String s, int n) {
+
+		char[] ca = s.toCharArray();
+
+		for (int i = 0; i < n - 1; i++) {
+			if (ca[i] != ca[i + 1]) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private static String deduplicate(String s) {
+
+		if (s == null || s.length() == 1) {
+			return s;
+		}
+
+		if (s.charAt(0) == s.charAt(1)) {
+			return deduplicate(s.substring(1));
+		} else {
+			return s.substring(0, 1) + deduplicate(s.substring(1));
+		}
+
+	}
+
+	public static int sparseString() {
+
+		return 0;
+	}
+
+	private void missingInt() {
+		BitSet bs = new BitSet();
+		HashSet<String> hs = new HashSet<String>();
+		Stack<Character> stack = new Stack<Character>();
+
+	}
+
+	private static int bruteForceSearch(String pat, String txt) {
+		int j, M = pat.length();
+		int i, N = txt.length();
+		for (i = 0, j = 0; i < N && j < M; i++)
+		{
+			System.out.println("txt.charAt(" + i + ")=" + txt.charAt(i) + " pat.charAt(" + j + ")=" + pat.charAt(j));
+			if (txt.charAt(i) == pat.charAt(j)) {
+				j++;
+			} else {
+				i -= j;
+				j = 0;
+			}
+			System.out.printf("i %d j %d \n", i, j);
+
+		}
+		if (j == M) {
+			return i - M; // found
+		}
+		else {
+			return N; // not found
+		}
+	}
 
 	/**
 	 * Timed out on large data sets
@@ -547,7 +646,7 @@ public class Search {
 	 * 
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void ronAndHermioneChallenge(String[] args) {
 
 		Scanner s = new Scanner(System.in);
 		int tc = s.nextInt();

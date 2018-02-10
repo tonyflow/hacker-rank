@@ -189,6 +189,6 @@ public class BinaryTree {
 
 		System.out.println("So I found what seems to be " + tree.findKey(14));
 
-		tree.remove(tree.root, 12);
+		// tree.remove(tree.root, 12);
 	}
 }
